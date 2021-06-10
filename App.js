@@ -1,22 +1,55 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Entypo } from "@expo/vector-icons";
+import * as SQLite from "expo-sqlite";
+
+const db = SQLite.openDatabase("notes.db");
+const SAMPLE_NOTES = [
+  { title: "Walk the cat", id: "0", done: false },
+  { title: "Water the cat", id: "1", done: false },
+  { title: "Buy the milk", id: "2", done: false },
+  { title: "Water the milk", id: "3", done: false },
+];
 
 function NotesScreen({ navigation }) {
+  const [notes, setNotes] = useState(SAMPLE_NOTES);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={console.log("Hello")}>
-          <Entypo name="new-message" size={24} color="black" />
+          <Entypo
+            style={{ marginRight: 10 }}
+            name="new-message"
+            size={24}
+            color="black"
+          />
         </TouchableOpacity>
       ),
     });
   });
 
-  return <View style={styles.container}></View>;
+  function renderItem({ item }) {
+    return (
+      <View style={styles.listItem}>
+        <Text>{item.title}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <FlatList style={styles.list} data={notes} renderItem={renderItem} />
+    </View>
+  );
 }
 
 const Stack = createStackNavigator();
@@ -56,5 +89,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#aa9",
     borderBottomWidth: 3,
     borderBottomColor: "green",
+  },
+  list: {
+    width: "100%",
+  },
+  listItem: {
+    height: 50,
+    justifyContent: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#999",
+    paddingLeft: 20,
   },
 });
