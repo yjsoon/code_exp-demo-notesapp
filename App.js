@@ -22,7 +22,7 @@ const SAMPLE_NOTES = [
   { title: "Water the milk", id: "3", done: false },
 ];
 
-function NotesScreen({ navigation }) {
+function NotesScreen({ route, navigation }) {
   const [notes, setNotes] = useState(SAMPLE_NOTES);
   useEffect(() => {
     navigation.setOptions({
@@ -38,6 +38,17 @@ function NotesScreen({ navigation }) {
       ),
     });
   });
+
+  useEffect(() => {
+    if (route.params?.todoText) {
+      const newNote = {
+        title: route.params.todoText,
+        id: notes.length.toString(),
+        done: false,
+      };
+      setNotes([...notes, newNote]);
+    }
+  }, [route.params?.todoText]);
 
   function renderItem({ item }) {
     return (
@@ -64,7 +75,10 @@ function AddScreen({ navigation }) {
         style={styles.textInput}
         onChangeText={(text) => setTodoText(text)}
       />
-      <Button onPress={() => navigation.goBack()} title="Submit" />
+      <Button
+        onPress={() => navigation.navigate("Notes", { todoText })}
+        title="Submit"
+      />
       <Button onPress={() => navigation.goBack()} title="Cancel" />
       <Text>{todoText}</Text>
     </View>
