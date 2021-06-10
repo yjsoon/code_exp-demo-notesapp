@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  Button,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -52,8 +53,13 @@ function NotesScreen({ navigation }) {
   );
 }
 
-function AddScreen() {
-  return <Text>Add!!!!</Text>;
+function AddScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Text>Add!!!!</Text>
+      <Button onPress={() => navigation.goBack()} title="Back" />
+    </View>
+  );
 }
 
 const NotesStack = createStackNavigator();
