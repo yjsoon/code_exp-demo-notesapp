@@ -1,10 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Entypo } from "@expo/vector-icons";
 
-function NotesScreen() {
+function NotesScreen({ navigation }) {
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={console.log("Hello")}>
+          <Entypo name="new-message" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+    });
+  });
+
   return <View style={styles.container}></View>;
 }
 
