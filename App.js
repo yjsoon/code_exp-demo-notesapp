@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   Button,
+  TextInput,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -54,10 +55,18 @@ function NotesScreen({ navigation }) {
 }
 
 function AddScreen({ navigation }) {
+  const [todoText, setTodoText] = useState("");
+
   return (
     <View style={styles.container}>
-      <Text>Add!!!!</Text>
-      <Button onPress={() => navigation.goBack()} title="Back" />
+      <Text>Add your note</Text>
+      <TextInput
+        style={styles.textInput}
+        onChangeText={(text) => setTodoText(text)}
+      />
+      <Button onPress={() => navigation.goBack()} title="Submit" />
+      <Button onPress={() => navigation.goBack()} title="Cancel" />
+      <Text>{todoText}</Text>
     </View>
   );
 }
@@ -124,5 +133,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#999",
     paddingLeft: 20,
+  },
+  textInput: {
+    borderColor: "black",
+    padding: 5,
+    backgroundColor: "white",
+    marginTop: 10,
+    width: "90%",
   },
 });
