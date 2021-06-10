@@ -25,7 +25,7 @@ function NotesScreen({ navigation }) {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={console.log("Hello")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Add")}>
           <Entypo
             style={{ marginRight: 10 }}
             name="new-message"
@@ -52,21 +52,40 @@ function NotesScreen({ navigation }) {
   );
 }
 
+function AddScreen() {
+  return <Text>Add!!!!</Text>;
+}
+
+const NotesStack = createStackNavigator();
+
+function NotesStackScreen() {
+  return (
+    <NotesStack.Navigator>
+      <NotesStack.Screen
+        name="Notes"
+        component={NotesScreen}
+        options={{
+          headerTitle: "Notes App",
+          headerTitleStyle: styles.headerTitleStyle,
+          headerStyle: styles.headerStyle,
+        }}
+      />
+    </NotesStack.Navigator>
+  );
+}
+
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator mode="modal" headerMode="none">
         <Stack.Screen
-          name="Notes"
-          component={NotesScreen}
-          options={{
-            headerTitle: "Notes App",
-            headerTitleStyle: styles.headerTitleStyle,
-            headerStyle: styles.headerStyle,
-          }}
+          name="NotesStack"
+          component={NotesStackScreen}
+          options={{ headerShown: false }}
         />
+        <Stack.Screen name="Add" component={AddScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
